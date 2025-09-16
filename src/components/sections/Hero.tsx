@@ -1741,10 +1741,8 @@ const Hero = () => {
                           src="/images/ic-profile1.png"
                           alt="David D. Bourdeau"
                           className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                            e.currentTarget.nextElementSibling.style.display = 'flex';
-                          }}
+                         
+                         
                         />
                         <div className="w-full h-full bg-gray-300 rounded-full flex items-center justify-center" style={{display: 'none'}}>
                           <span className="text-gray-600 font-semibold text-xs sm:text-sm">DD</span>
@@ -1816,10 +1814,7 @@ const Hero = () => {
                           src="/images/ic-profile2.png" 
                           alt="Sarah M. Johnson"
                           className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                            e.currentTarget.nextElementSibling.style.display = 'flex';
-                          }}
+                  
                         />
                         <div className="w-full h-full bg-gray-300 rounded-full flex items-center justify-center" style={{display: 'none'}}>
                           <span className="text-gray-600 font-semibold text-xs sm:text-sm">SM</span>
@@ -1891,10 +1886,7 @@ const Hero = () => {
                           src="/images/ic-profile3.png" 
                           alt="Michael R. Chen"
                           className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                            e.currentTarget.nextElementSibling.style.display = 'flex';
-                          }}
+                      
                         />
                         <div className="w-full h-full bg-gray-300 rounded-full flex items-center justify-center" style={{display: 'none'}}>
                           <span className="text-gray-600 font-semibold text-xs sm:text-sm">MR</span>
@@ -1966,10 +1958,7 @@ const Hero = () => {
                           src="/images/ic-profile4.png" 
                           alt="Emma W. Davis"
                           className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                            e.currentTarget.nextElementSibling.style.display = 'flex';
-                          }}
+                       
                         />
                         <div className="w-full h-full bg-gray-300 rounded-full flex items-center justify-center" style={{display: 'none'}}>
                           <span className="text-gray-600 font-semibold text-xs sm:text-sm">EW</span>
