@@ -904,7 +904,7 @@ const Hero = () => {
               Start Travelling With Us
             </div>
             <h1 className="hero-heading mb-6">
-              Let's Enjoy Your <br /> Desired Trip
+              Let&apos;s Enjoy Your <br /> Desired Trip
               With TripyPackage
             </h1>
             <p className="body-large text-gray-600 mb-8 max-w-2xl">
