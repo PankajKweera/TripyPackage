@@ -1,0 +1,343 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply text-gray-900 bg-white;
+  }
+  
+  * {
+    @apply border-gray-200;
+  }
+}
+
+@layer components {
+  /* Responsive Container */
+  .container-responsive {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 100%;
+  }
+  
+  /* Responsive Grid */
+  .grid-responsive {
+    @apply grid gap-4 sm:gap-6 lg:gap-8;
+  }
+  
+  .grid-cols-responsive {
+    @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+  
+  /* Custom Typography for TripyPackage */
+  .tripy-logo {
+    font-family: 'El Messiri', serif;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 124%;
+    letter-spacing: 0%;
+    text-transform: capitalize;
+  }
+  
+  /* Travel Badge Typography */
+  .travel-badge {
+    font-family: var(--font-montez), cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 28px;
+    line-height: 124%;
+    letter-spacing: 0%;
+    text-transform: capitalize;
+    color: #FF5522;
+  }
+  
+  /* Main Hero Heading Typography */
+  .hero-heading {
+    font-family: var(--font-el-messiri), serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 74px;
+    line-height: 134%;
+    letter-spacing: 0%;
+    text-transform: capitalize;
+    color: #0C1F26;
+  }
+  
+  .nav-link-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 150%;
+    letter-spacing: 0%;
+    text-transform: capitalize;
+  }
+
+  /* Responsive Typography */
+  .heading-1 {
+    @apply text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight;
+  }
+  
+  .heading-2 {
+    @apply text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight;
+  }
+  
+  .heading-3 {
+    @apply text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold leading-tight;
+  }
+  
+  .heading-4 {
+    @apply text-lg sm:text-xl lg:text-2xl xl:text-3xl font-semibold leading-tight;
+  }
+  
+  .body-large {
+    @apply text-base sm:text-lg lg:text-xl leading-relaxed;
+  }
+  
+  .body-medium {
+    @apply text-sm sm:text-base lg:text-lg leading-relaxed;
+  }
+  
+  .body-small {
+    @apply text-xs sm:text-sm lg:text-base leading-relaxed;
+  }
+  
+  /* Responsive Spacing */
+  .section-padding {
+    @apply py-8 sm:py-12 lg:py-16 xl:py-20;
+  }
+  
+  .section-padding-sm {
+    @apply py-4 sm:py-6 lg:py-8 xl:py-12;
+  }
+  
+  .section-padding-lg {
+    @apply py-12 sm:py-16 lg:py-20 xl:py-24;
+  }
+  
+  /* Responsive Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .btn-sm {
+    @apply px-3 py-2 text-sm;
+  }
+  
+  .btn-md {
+    @apply px-4 py-2 text-base;
+  }
+  
+  .btn-lg {
+    @apply px-6 py-3 text-lg;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500;
+  }
+  
+  /* Responsive Cards */
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6;
+  }
+  
+  .card-hover {
+    @apply hover:shadow-md transition-shadow duration-200;
+  }
+  
+  /* Responsive Images */
+  .img-responsive {
+    @apply w-full h-auto object-cover;
+  }
+  
+  .img-cover {
+    @apply w-full h-full object-cover;
+  }
+  
+  /* Responsive Navigation */
+  .nav-link {
+    @apply text-gray-600 hover:text-gray-900 transition-colors duration-200;
+  }
+  
+  .nav-link-active {
+    @apply text-primary-600 font-medium;
+  }
+  
+  /* Mobile Menu */
+  .mobile-menu {
+    @apply fixed inset-0 z-50 bg-white transform transition-transform duration-300 ease-in-out;
+  }
+  
+  .mobile-menu-open {
+    @apply translate-x-0;
+  }
+  
+  .mobile-menu-closed {
+    @apply translate-x-full;
+  }
+  
+  /* Responsive Utilities */
+  .hide-mobile {
+    @apply hidden sm:block;
+  }
+  
+  .hide-desktop {
+    @apply block sm:hidden;
+  }
+  
+  .text-center-mobile {
+    @apply text-center sm:text-left;
+  }
+  
+  .text-center-desktop {
+    @apply text-left sm:text-center;
+  }
+}
+
+@layer utilities {
+  /* Custom responsive utilities */
+  .aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+  
+  .aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+  
+  .aspect-portrait {
+    aspect-ratio: 3 / 4;
+  }
+  
+  .aspect-landscape {
+    aspect-ratio: 4 / 3;
+  }
+  
+  /* Custom Spinner Animation */
+  .animate-spin-slow {
+    animation: spin 8s linear infinite;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Hide GSAP ScrollTrigger Debug Markers */
+  .gsap-scroll-trigger-debug {
+    display: none !important;
+  }
+  
+  /* Hide any GSAP debug elements */
+  [class*="gsap-scroll-trigger"] {
+    display: none !important;
+  }
+  
+  /* Hide ScrollTrigger markers */
+  .gsap-scroll-trigger-marker {
+    display: none !important;
+  }
+  
+  /* Hide any elements with N text that might be debug markers */
+  [data-gsap-scroll-trigger] {
+    display: none !important;
+  }
+  
+  /* Hide all ScrollTrigger debug elements */
+  .gsap-scroll-trigger-marker-start,
+  .gsap-scroll-trigger-marker-end,
+  .gsap-scroll-trigger-marker-scroller-start,
+  .gsap-scroll-trigger-marker-scroller-end {
+    display: none !important;
+  }
+  
+  /* Hide any blue debug elements */
+  [style*="background-color: blue"],
+  [style*="background: blue"],
+  [class*="debug"],
+  [id*="debug"] {
+    display: none !important;
+  }
+  
+  /* Hide elements with N text */
+  [class*="N"],
+  [id*="N"] {
+    display: none !important;
+  }
+  
+  /* Hide any floating debug elements */
+  [style*="position: fixed"][style*="z-index: 9999"],
+  [style*="position: absolute"][style*="z-index: 9999"] {
+    display: none !important;
+  }
+  
+  /* Blog Carousel Mobile Responsive */
+  .blog-carousel-item {
+    transition: transform 0.3s ease;
+    width: 100%;
+  }
+  
+  .blog-carousel-item > div {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Mobile First Responsive Design */
+  @media (max-width: 640px) {
+    .blog-carousel-item > div {
+      height: 12rem !important; /* 192px */
+    }
+    
+    .container-responsive {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+  
+  @media (min-width: 641px) and (max-width: 768px) {
+    .blog-carousel-item > div {
+      height: 14rem !important; /* 224px */
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .blog-carousel-item > div {
+      height: 16rem !important; /* 256px */
+    }
+  }
+  
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    .blog-carousel-item > div {
+      height: 18rem !important; /* 288px */
+    }
+  }
+  
+  @media (min-width: 1281px) {
+    .blog-carousel-item > div {
+      height: 20rem !important; /* 320px */
+    }
+  }
+  
+  /* Ensure carousel doesn't overflow on mobile */
+  .container-responsive {
+    max-width: 100%;
+  }
+  
+  /* Touch-friendly navigation buttons on mobile */
+  @media (max-width: 768px) {
+    .blog-carousel-item button {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+  
+}
