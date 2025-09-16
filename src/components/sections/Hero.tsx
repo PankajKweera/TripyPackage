@@ -893,7 +893,7 @@ const Hero = () => {
       backgroundRepeat: 'no-repeat',
       height: '2075px'
     }}>
-      <section className="relative section-padding-lg" style={{paddingLeft: '100px', marginRight:'100px', paddingTop: '150px', paddingBottom: '100px'}}>
+      <section className="relative section-padding-lg px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 md:py-24 lg:py-32">
 
       <div className="container-responsive relative z-10" style={{marginTop: '40px'}}>
 <section
@@ -903,33 +903,33 @@ const Hero = () => {
             <div className="travel-badge mb-4">
               Start Travelling With Us
             </div>
-            <h1 className="hero-heading mb-6">
-              Let&apos;s Enjoy Your <br /> Desired Trip
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+              Let&apos;s Enjoy Your <br className="hidden sm:block" /> Desired Trip
               With TripyPackage
             </h1>
-            <p className="body-large text-gray-600 mb-8 max-w-2xl">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
               The traveller where you can select your desired activity and destinations of your choice for vacations.
             </p>
            
           </div>
 
 
-          <div ref={imagesRef} className="relative flex justify-center">
-            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg">
+          <div ref={imagesRef} className="relative flex justify-center mt-8 lg:mt-0">
+            <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
                 <div className="flex gap-4">
-                  <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-tl-sm rounded-tr-sm rounded-bl-2xl rounded-br-sm overflow-hidden shadow-lg flex items-center justify-center" style={{width:418,height:418}}>
+                  <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-tl-sm rounded-tr-sm rounded-bl-2xl rounded-br-sm overflow-hidden shadow-lg flex items-center justify-center w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96">
                     <img 
                       src="/images/ic-tripy1.png"
                       alt="Burj Al Arab Hotel - Dubai"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div  style={{marginTop:'80px'}}>
-                    <img src="/images/ic-playbtn.png" alt="Person on Cliff Overlooking Ocean" className="object-cover" style={{width:87,height:85,marginLeft:'20px'}} />
+                  <div className="mt-16 sm:mt-20 lg:mt-24">
+                    <img src="/images/ic-playbtn.png" alt="Person on Cliff Overlooking Ocean" className="object-cover w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 ml-4 sm:ml-6" />
                   </div>
                 </div>
               
-                <div className="absolute -bottom-60 -right-28 sm:-bottom-64 sm:-right-72 lg:-bottom-60 lg:-right-40  sm:w-48 sm:h-60 lg:w-64 lg:h-80 bg-gradient-to-br from-gray-200 to-gray-300 rounded-tl-sm rounded-tr-2xl rounded-bl-sm rounded-br-sm overflow-hidden shadow-xl z-20" style={{width:414,height:400}}>
+                <div className="absolute -bottom-32 -right-16 sm:-bottom-40 sm:-right-20 md:-bottom-48 md:-right-24 lg:-bottom-60 lg:-right-40 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-64 lg:h-80 bg-gradient-to-br from-gray-200 to-gray-300 rounded-tl-sm rounded-tr-2xl rounded-bl-sm rounded-br-sm overflow-hidden shadow-xl z-20">
                 <img 
                   src="/images/ic-tripy.png"
                   alt="Person on Cliff Overlooking Ocean"
@@ -946,7 +946,7 @@ const Hero = () => {
 
 
           {/* About Us Section */}
-          <div id="about" style={{paddingTop: '250px',marginBottom: '100px'}}>
+          <div id="about" className="pt-16 sm:pt-20 md:pt-24 lg:pt-32 xl:pt-40 pb-16 sm:pb-20 md:pb-24 lg:pb-32">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
               {/* Left Side - Image Collage */}
               <div ref={aboutImagesRef} className="relative order-2 lg:order-1">
@@ -1017,7 +1017,7 @@ const Hero = () => {
               </div>
 
               {/* Right Side - Content */}
-              <div ref={aboutContentRef} className="space-y-4 sm:space-y-6 order-1 lg:order-2 px-4 sm:px-6 lg:px-0 lg:ml-[100px]">
+              <div ref={aboutContentRef} className="space-y-4 sm:space-y-6 order-1 lg:order-2 px-4 sm:px-6 lg:px-0 lg:ml-8 xl:ml-16">
                 {/* About Us Badge */}
                 <div className="travel-badge text-center lg:text-left">
                   About Us
@@ -1053,7 +1053,7 @@ const Hero = () => {
 
           
           {/* Packages Section */}
-          <div id="packages" ref={packagesRef} style={{marginTop: '400px'}}>
+          <div id="packages" ref={packagesRef} className="mt-16 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
               {/* Left Side - Featured Package */}
               <div ref={packagesLeftRef} className="space-y-6">
@@ -1328,15 +1328,14 @@ const Hero = () => {
 
       </section>
 
-          <div ref={centerImageRef} className="relative bg-gray-100 w-full py-20" style={{ marginTop: '20px', height: '750px'}}>
+          <div ref={centerImageRef} className="relative bg-gray-100 w-full py-12 sm:py-16 md:py-20 mt-8 sm:mt-12 md:mt-16 h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px]">
             <img 
               src="/images/ic-center.png"
               alt="Best Destination"
               className="w-full h-full object-cover"
-              style={{width: '100%', height: '750px'}}
             />
             
-            <div ref={centerTextRef} className="absolute bottom-8 left-24 lg:bottom-8 lg:left-24">
+            <div ref={centerTextRef} className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 md:bottom-8 md:left-8 lg:bottom-8 lg:left-24">
               <div className="text-left">
                 <h2
                   className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-4"
@@ -1369,7 +1368,7 @@ const Hero = () => {
               </div>
             </div>
 
-          <div id="destinations" ref={destinationRef} style={{marginTop: '350px',marginLeft: '100px',marginRight: '100px'}} >
+          <div id="destinations" ref={destinationRef} className="mt-16 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
             <div className="text-center mb-16">
               <div className="travel-badge mb-4">
                 Destination
@@ -1386,7 +1385,7 @@ const Hero = () => {
               </h2>
             </div>
 
-            <div ref={destinationCardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div ref={destinationCardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
               <div className="relative group cursor-pointer">
                 <div className="relative overflow-hidden shadow-lg" style={{borderTopRightRadius: '32px'}}>
                   <img 
@@ -1659,8 +1658,8 @@ const Hero = () => {
             </div>
           </div>
 
-      <div ref={testimonialRef}  style={{backgroundColor:"#E8EDEF", marginTop: '155px'}}>
-          <div  style={{paddingLeft: '100px', paddingRight: '100px',paddingTop: '120px',paddingBottom: '120px'}}>
+      <div ref={testimonialRef} className="bg-gray-100 mt-16 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40">
+          <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 md:py-24 lg:py-32">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-center">
               <div className="lg:col-span-1">
                 <div className="space-y-4 mb-6">
@@ -1703,9 +1702,9 @@ const Hero = () => {
 
               {/* Right Side - Testimonial Cards */}
               <div className="lg:col-span-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
                   {/* Testimonial Card 1 */}
-                  <div className="bg-white p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-none flex flex-col" style={{height: '344px',width: '410px'}}>
+                  <div className="bg-white p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-none flex flex-col h-80 sm:h-96 md:h-[344px] w-full">
                     <div className="flex items-center mb-3 sm:mb-4">
                       {[...Array(5)].map((_, i) => (
                         <span key={i} className="text-orange-500" style={{
@@ -1778,7 +1777,7 @@ const Hero = () => {
                   </div>
 
                   {/* Testimonial Card 2 */}
-                  <div className="bg-white p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-none flex flex-col" style={{height: '344px', width: '410px'}}>
+                  <div className="bg-white p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-none flex flex-col h-80 sm:h-96 md:h-[344px] w-full">
                     <div className="flex items-center mb-3 sm:mb-4">
                       {[...Array(5)].map((_, i) => (
                         <span key={i} className="text-orange-500" style={{
@@ -1850,7 +1849,7 @@ const Hero = () => {
                   </div>
 
                   {/* Testimonial Card 3 */}
-                  <div className="bg-white p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-none flex flex-col" style={{height: '344px', width: '410px'}}>
+                  <div className="bg-white p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-none flex flex-col h-80 sm:h-96 md:h-[344px] w-full">
                     <div className="flex items-center mb-3 sm:mb-4">
                       {[...Array(5)].map((_, i) => (
                         <span key={i} className="text-orange-500" style={{
@@ -1922,7 +1921,7 @@ const Hero = () => {
                   </div>
 
                   {/* Testimonial Card 4 */}
-                  <div className="bg-white p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-none flex flex-col" style={{height: '344px', width: '410px'}}>
+                  <div className="bg-white p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-none flex flex-col h-80 sm:h-96 md:h-[344px] w-full">
                     <div className="flex items-center mb-3 sm:mb-4">
                       {[...Array(5)].map((_, i) => (
                         <span key={i} className="text-orange-500" style={{
@@ -2006,7 +2005,7 @@ const Hero = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
                   {blogImages.slice(currentBlogIndex, currentBlogIndex + 5).map((image, index) => (
                     <div key={image.id} className="relative group cursor-pointer blog-carousel-item">
-                      <div className="relative overflow-hidden shadow-lg" style={{borderTopRightRadius: '32px', borderBottomRightRadius: '0px', width: '360px', height: '360px'}}>
+                      <div className="relative overflow-hidden shadow-lg w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80" style={{borderTopRightRadius: '32px', borderBottomRightRadius: '0px'}}>
                         <img 
                           src={image.src}
                           alt={image.alt}
@@ -2054,7 +2053,7 @@ const Hero = () => {
             </div>
           </section>
 
-          <section id="blog" ref={blogRef} style={{marginLeft:'100px',marginRight:'100px',marginTop: '80px'}}>
+          <section id="blog" ref={blogRef} className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 mt-16 sm:mt-20 md:mt-24 lg:mt-32">
             <div className="container-responsive" >
               {/* Blog & News Heading */}
               <div className="text-left mb-16">
@@ -2164,24 +2163,21 @@ const Hero = () => {
         
 
      
-          <footer id="footer" ref={footerRef} style={{backgroundColor:'#E8EDEF',marginTop:100}}>
-            <div style={{marginLeft:'100px',marginRight:'100px'}}>
+          <footer id="footer" ref={footerRef} className="bg-gray-100 mt-16 sm:mt-20 md:mt-24 lg:mt-32">
+            <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
               <div>
-                <div className="flex flex-col md:flex-row " style={{paddingTop:100}}>
+                <div className="flex flex-col md:flex-row pt-16 sm:pt-20 md:pt-24 lg:pt-32">
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900" style={{fontFamily:'El Messiri',fontWeight:700,fontStyle:'normal',fontSize:'54px',lineHeight:'124%',letterSpacing:'0%',textTransform:'capitalize'
-
-                    }}>Join Our Newsletter</h3>
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900" style={{fontFamily:'El Messiri',fontWeight:700,fontStyle:'normal',lineHeight:'124%',letterSpacing:'0%',textTransform:'capitalize'}}>Join Our Newsletter</h3>
                   </div>
-                  <form onSubmit={handleSubscribe} className="flex justify-center items-center gap-3">
+                  <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-4 md:mt-0">
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Email Your Address"
-                      className="focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-80 md:w-96 lg:w-[520px]"
                       style={{
-                        width: '520px',
                         height: '70px',
                         fontSize: '16px',
                         color: '#0C1F26',
@@ -2200,10 +2196,9 @@ const Hero = () => {
                     />
                       <button
                         type="submit"
-                        className="px-6 py-3 transition-colors duration-300 whitespace-nowrap"
+                        className="px-6 py-3 transition-colors duration-300 whitespace-nowrap w-full sm:w-32 md:w-36 lg:w-[150px]"
                         style={{
                           height: '56px',
-                          width: '150px',
                           color: 'white',
                           fontFamily: 'Open Sans',
                           fontWeight: 400,
@@ -2221,14 +2216,14 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="border-t border-gray-300 pt-8" style={{marginTop:60}}>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 " style={{marginTop:20}}>
+              <div className="border-t border-gray-300 pt-8 mt-12 sm:mt-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 mt-4 sm:mt-6">
                 {/* Company Branding */}
                 <div className="space-y-4">
                   <h4 className="text-2xl font-bold text-gray-900" style={{fontFamily: 'El Messiri'}}>
                     TripyPackage
                   </h4>
-                  <p  style={{fontFamily: 'El Messiri',fontWeight:700,fontStyle:'normal',fontSize:'54px',lineHeight:'124%',letterSpacing:'0%',textTransform:'capitalize',color:"#0C1F26" }}>
+                  <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl" style={{fontFamily: 'El Messiri',fontWeight:700,fontStyle:'normal',lineHeight:'124%',letterSpacing:'0%',textTransform:'capitalize',color:"#0C1F26" }}>
                     Extraordinary <br/> Tour Service
                   </p>
                   <div className="flex space-x-3">
@@ -2316,7 +2311,7 @@ const Hero = () => {
                 </div>
 
            
-                <div className="space-y-4" style={{paddingLeft:100}}>
+                <div className="space-y-4 pl-8 sm:pl-12 md:pl-16 lg:pl-20 xl:pl-24">
                   <h5 className="text-lg font-semibold text-gray-900">Contact</h5>
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
@@ -2341,7 +2336,7 @@ const Hero = () => {
                 </div>
 
                 {/* Company Links */}
-                <div className="space-y-4" style={{paddingLeft:100}}>
+                <div className="space-y-4 pl-8 sm:pl-12 md:pl-16 lg:pl-20 xl:pl-24">
                   <h5 className="text-lg font-semibold text-gray-900">Company</h5>
                   <div className="space-y-2">
                     <button 
