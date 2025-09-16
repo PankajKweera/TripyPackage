@@ -163,6 +163,8 @@ const Hero = () => {
       carouselImages.forEach(image => {
         const img = new Image()
         img.src = image
+        img.loading = 'eager'
+        img.decoding = 'async'
       })
     }
     preloadImages()
@@ -915,8 +917,7 @@ const Hero = () => {
       <section className="relative section-padding-lg px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 md:py-24 lg:py-32">
 
       <div className="container-responsive relative z-10" style={{marginTop: '10px'}}>
-<section
->
+<section className="pt-20 sm:pt-24 md:pt-28 lg:pt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div ref={contentRef} className="text-center lg:text-left">
             <div className="travel-badge mb-4">
@@ -951,6 +952,8 @@ const Hero = () => {
                   src="/images/ic-tripy1.png"
                   alt="Burj Al Arab Hotel - Dubai"
                   className="w-full h-full object-cover"
+                  loading="eager"
+                  decoding="async"
                 />
 
                   <div className="absolute top-2 -right-20 sm:top-3 sm:-right-24 md:top-4 md:-right-28 lg:top-4 lg:-right-32 xl:top-4 xl:-right-36">
@@ -962,6 +965,8 @@ const Hero = () => {
                     src="/images/ic-tripy.png"
                     alt="Person on Cliff Overlooking Ocean"
                     className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                   
                  
@@ -994,11 +999,13 @@ const Hero = () => {
                       borderBottomLeftRadius: 'clamp(16px, 4vw, 32px)', 
                       borderBottomRightRadius: '0px' 
                     }}>
-                      <img 
-                        src="/images/ic-tripy4.png"
-                        alt="Adventure"
-                        className="w-full h-full object-cover"
-                      />
+                  <img 
+                    src="/images/ic-tripy4.png"
+                    alt="Adventure"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
                     </div>
                   </div>
                   
@@ -1019,6 +1026,8 @@ const Hero = () => {
                         src="/images/ic-tripy5.png"
                         alt="Travel Destination"
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </div>
@@ -1040,6 +1049,8 @@ const Hero = () => {
                         src="/images/ic-tripy3.png"
                         alt="Travel Experience"
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </div>
@@ -1083,7 +1094,7 @@ const Hero = () => {
 
           
           {/* Packages Section */}
-          <div id="packages" ref={packagesRef} className="mt-48 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40">
+          <div id="packages" ref={packagesRef} className="mt-32 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
               {/* Left Side - Featured Package */}
               <div ref={packagesLeftRef} className="space-y-6">
@@ -1407,7 +1418,10 @@ const Hero = () => {
                   <img 
                     src={carouselImages[currentImageIndex]}
                     alt="Mountain Range"
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" style={{height: '372px'}}
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" 
+                    style={{height: '372px'}}
+                    loading="eager"
+                    decoding="async"
                   />
                   
                   {/* Star Rating */}

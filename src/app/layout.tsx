@@ -43,6 +43,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload critical images */}
+        <link rel="preload" href="/images/ic-tripy1.png" as="image" />
+        <link rel="preload" href="/images/ic-bg.png" as="image" />
+        <link rel="preload" href="/images/ic-center.png" as="image" />
+        <link rel="preload" href="/images/ic-tripy6.png" as="image" />
+      </head>
       <body 
         className={`${elMessiri.variable} ${openSans.variable} ${montez.variable}`}
         suppressHydrationWarning={true}

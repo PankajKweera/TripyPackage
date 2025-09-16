@@ -90,10 +90,19 @@ const Header = () => {
   }
 
   return (
-    <header className={`bg-gray-100 shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
-      isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
-    }`}>
-      <div className="container-responsive px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-2">
+    <>
+      {/* Mobile menu backdrop */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+      
+      <header className={`bg-gray-100 shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+        isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}>
+      <div className="container-responsive px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-2 relative">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
@@ -140,7 +149,7 @@ const Header = () => {
           <div className="lg:hidden">
             <button
               onClick={toggleMobileMenu}
-              className="p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200"
+              className="p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200 relative z-50"
               aria-expanded={isMobileMenuOpen}
               aria-label="Toggle mobile menu"
             >
@@ -159,7 +168,7 @@ const Header = () => {
             isMobileMenuOpen ? 'block opacity-100' : 'hidden opacity-0'
           }`}
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 bg-white">
+          <div className="absolute top-full left-0 right-0 px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 bg-white shadow-lg z-50">
             {navigation.map((item) => (
               <button
                 key={item.name}
@@ -167,16 +176,16 @@ const Header = () => {
                   scrollToSection(item.scrollTo)
                   setIsMobileMenuOpen(false)
                 }}
-                className="block w-full text-left px-3 py-2 nav-link-text text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                className="block w-full text-left px-3 py-3 nav-link-text text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200 text-base font-medium"
               >
                 {item.name}
               </button>
             ))}
-            
           </div>
         </div>
       </div>
     </header>
+    </>
   )
 }
 
