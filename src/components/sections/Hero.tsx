@@ -162,7 +162,7 @@ const Hero = () => {
     const preloadImages = () => {
       carouselImages.forEach(image => {
         const img = new Image()
-        img.src = image.src
+        img.src = image
       })
     }
     preloadImages()
