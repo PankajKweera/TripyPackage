@@ -90,15 +90,26 @@ const Header = () => {
   }
 
   return (
-    <header className={`bg-gray-100 shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+    <header className={`  fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
       isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
-      <div className="container-responsive" style={{paddingLeft: '100px', paddingTop: '5px', paddingBottom: '5px', paddingRight: '100px'}}>
+      <div className="container-responsive px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-2">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
-              <span className="ml-2 tripy-logo text-gray-900">
+              <span 
+                className="text-lg sm:text-xl font-bold text-gray-900"
+                style={{
+                  fontFamily: 'El Messiri',
+                  fontWeight: 700,
+                  fontStyle: 'Bold',
+                  fontSize: '32px',
+                  lineHeight: '124%',
+                  letterSpacing: '0%',
+                  textTransform: 'capitalize'
+                }}
+              >
                 TripyPackage
               </span>
             </Link>
@@ -129,14 +140,14 @@ const Header = () => {
           <div className="lg:hidden">
             <button
               onClick={toggleMobileMenu}
-              className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
-              aria-expanded="false"
+              className="p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200"
+              aria-expanded={isMobileMenuOpen}
+              aria-label="Toggle mobile menu"
             >
-              <span className="sr-only">Open main menu</span>
               {isMobileMenuOpen ? (
-                <X className="block h-6 w-6" aria-hidden="true" />
+                <X className="block h-6 w-6 text-gray-700" aria-hidden="true" />
               ) : (
-                <Menu className="block h-6 w-6" aria-hidden="true" />
+                <Menu className="block h-6 w-6 text-gray-700" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -144,11 +155,11 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         <div
-          className={`lg:hidden ${
-            isMobileMenuOpen ? 'block' : 'hidden'
+          className={`lg:hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'block opacity-100' : 'hidden opacity-0'
           }`}
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 bg-white">
             {navigation.map((item) => (
               <button
                 key={item.name}
@@ -161,11 +172,7 @@ const Header = () => {
                 {item.name}
               </button>
             ))}
-            <div className="pt-4">
-              <button className="btn btn-md btn-primary w-full">
-                Get Started
-              </button>
-            </div>
+           
           </div>
         </div>
       </div>

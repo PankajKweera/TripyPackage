@@ -208,6 +208,16 @@ const Hero = () => {
     const interval = setInterval(hideDebugElements, 100)
 
     const ctx = gsap.context(() => {
+      // Mobile optimization - reduce animation durations for better performance
+      const isMobile = window.innerWidth < 768
+      const baseDuration = isMobile ? 0.4 : 1.0
+      const fastDuration = isMobile ? 0.3 : 0.8
+      const slowDuration = isMobile ? 0.6 : 1.2
+      
+      // Override GSAP defaults for mobile
+      if (isMobile) {
+        gsap.defaults({ duration: 0.5, ease: "power2.out" })
+      }
 
       gsap.fromTo(contentRef.current, 
         { 
@@ -217,7 +227,7 @@ const Hero = () => {
         {
           opacity: 1,
           y: 0,
-          duration: 1,
+          duration: baseDuration,
           ease: "power2.out",
           scrollTrigger: {
             trigger: contentRef.current,
@@ -239,7 +249,7 @@ const Hero = () => {
           opacity: 1,
           x: 0,
           scale: 1,
-          duration: 1.2,
+          duration: slowDuration,
           ease: "power2.out",
           scrollTrigger: {
             trigger: imagesRef.current,
@@ -895,7 +905,7 @@ const Hero = () => {
     }}>
       <section className="relative section-padding-lg px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 md:py-24 lg:py-32">
 
-      <div className="container-responsive relative z-10" style={{marginTop: '40px'}}>
+      <div className="container-responsive relative z-10" style={{marginTop: '10px'}}>
 <section
 >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -903,7 +913,17 @@ const Hero = () => {
             <div className="travel-badge mb-4">
               Start Travelling With Us
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 
+              className="text-gray-900 mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl"
+              style={{
+                fontFamily: 'El Messiri',
+                fontWeight: 700,
+                fontStyle: 'Bold',
+                lineHeight: '134%',
+                letterSpacing: '0%',
+                textTransform: 'capitalize'
+              }}
+            >
               Let&apos;s Enjoy Your <br className="hidden sm:block" /> Desired Trip
               With TripyPackage
             </h1>
@@ -915,38 +935,39 @@ const Hero = () => {
 
 
           <div ref={imagesRef} className="relative flex justify-center mt-8 lg:mt-0">
-            <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
-                <div className="flex gap-4">
-                  <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-tl-sm rounded-tr-sm rounded-bl-2xl rounded-br-sm overflow-hidden shadow-lg flex items-center justify-center w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96">
-                    <img 
-                      src="/images/ic-tripy1.png"
-                      alt="Burj Al Arab Hotel - Dubai"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="mt-16 sm:mt-20 lg:mt-24">
-                    <img src="/images/ic-playbtn.png" alt="Person on Cliff Overlooking Ocean" className="object-cover w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 ml-4 sm:ml-6" />
-                  </div>
-                </div>
-              
-                <div className="absolute -bottom-32 -right-16 sm:-bottom-40 sm:-right-20 md:-bottom-48 md:-right-24 lg:-bottom-60 lg:-right-40 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-64 lg:h-80 bg-gradient-to-br from-gray-200 to-gray-300 rounded-tl-sm rounded-tr-2xl rounded-bl-sm rounded-br-sm overflow-hidden shadow-xl z-20">
+            <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 xl:w-[600px] xl:h-[600px] -ml-16 sm:-ml-20 md:-ml-24 lg:-ml-28 xl:-ml-32">
+              {/* Main image - Burj Al Arab (tripp1) - centered with overlapping image inside */}
+              <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-blue-100 to-blue-200 rounded-tl-sm rounded-tr-sm rounded-bl-2xl rounded-br-sm shadow-lg w-40 h-32 sm:w-56 sm:h-40 md:w-56 md:h-48 lg:w-64 lg:h-56 xl:w-96 xl:h-80">
                 <img 
-                  src="/images/ic-tripy.png"
-                  alt="Person on Cliff Overlooking Ocean"
+                  src="/images/ic-tripy1.png"
+                  alt="Burj Al Arab Hotel - Dubai"
                   className="w-full h-full object-cover"
                 />
+
+                  <div className="absolute top-2 -right-20 sm:top-3 sm:-right-24 md:top-4 md:-right-28 lg:top-4 lg:-right-32 xl:top-4 xl:-right-36">
+                    <img src="/images/ic-playbtn.png" alt="See How it Works" className="object-cover w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28" />
+                  </div>
+                {/* Overlapping image - Person on cliff (tripy) - positioned at bottom right of main image */}
+                <div className="absolute bg-gradient-to-br from-gray-200 to-gray-300 rounded-tl-sm rounded-tr-2xl rounded-bl-sm rounded-br-sm overflow-hidden shadow-xl z-20 w-40 h-32 sm:w-48 sm:h-40 md:w-56 md:h-48 lg:w-64 lg:h-56 xl:w-96 xl:h-80 -bottom-28 -right-32 sm:-bottom-32 sm:-right-36 md:-bottom-36 md:-right-40 lg:-bottom-40 lg:-right-44 xl:-bottom-48 xl:-right-52">
+                  <img 
+                    src="/images/ic-tripy.png"
+                    alt="Person on Cliff Overlooking Ocean"
+                    className="w-full h-full object-cover"
+                  />
+                  
+                 
+                </div>
               </div>
+            </div>
 
               {/* See How It Works Spinner - Updated */}
-             
             </div>
           </div>
-        </div>
         
 
 
           {/* About Us Section */}
-          <div id="about" className="pt-16 sm:pt-20 md:pt-24 lg:pt-32 xl:pt-40 pb-16 sm:pb-20 md:pb-24 lg:pb-32">
+          <div id="about" className="pt-24 sm:pt-32 md:pt-40 lg:pt-48 xl:pt-56 pb-16 sm:pb-20 md:pb-24 lg:pb-32">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
               {/* Left Side - Image Collage */}
               <div ref={aboutImagesRef} className="relative order-2 lg:order-1">
@@ -1053,8 +1074,8 @@ const Hero = () => {
 
           
           {/* Packages Section */}
-          <div id="packages" ref={packagesRef} className="mt-16 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div id="packages" ref={packagesRef} className="mt-48 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
               {/* Left Side - Featured Package */}
               <div ref={packagesLeftRef} className="space-y-6">
                 <div className="space-y-4">
@@ -1075,7 +1096,7 @@ const Hero = () => {
                 
           
                 <div className="relative">
-                  <div className="bg-gradient-to-br from-orange-100 to-pink-100 overflow-hidden shadow-lg" style={{width: '630px', height: '400px'}}>
+                  <div className="bg-gradient-to-br from-orange-100 to-pink-100 overflow-hidden shadow-lg w-full h-64 sm:h-80 md:h-96 lg:h-[400px] xl:h-[450px]">
                     <img 
                       src="/images/ic-tripy6.png"
                       alt="Island Hopping Paradise"
@@ -1118,14 +1139,13 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div ref={packagesRightRef} className="space-y-6" style={{marginTop: '185px'}}>
-              <div className="flex gap-8 p-8 border-b border-[#000000]">
+              <div ref={packagesRightRef} className="space-y-4 sm:space-y-6 mt-8 lg:mt-32 xl:mt-40">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 text-sm mb-2" style={{
+                    <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
                       fontFamily: 'Open Sans',
                       fontWeight: 400,
                       fontStyle: 'normal',
-                      fontSize: '16px',
                       lineHeight: '150%',
                       letterSpacing: '0%'
                     }}>
@@ -1133,8 +1153,8 @@ const Hero = () => {
                       <span style={{color: '#C6D1D6'}}>•</span>
                       <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
                     </div>
-                     <div className="flex-shrink-0 flex items-end" style={{marginTop: '-80px', marginLeft: '220px'}}>
-                       <div className="w-24 h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
+                     <div className="flex-shrink-0 flex items-end sm:absolute sm:top-4 sm:right-4 lg:static lg:mt-0">
+                       <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
                         <img 
                           src="/images/ic-tripy7.png"
                           alt="Mountain Majesty"
@@ -1174,13 +1194,12 @@ const Hero = () => {
                  
                 </div>
 
-                <div className="flex gap-8 p-8 border-b border-[#000000]">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 text-sm mb-2" style={{
+                    <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
                       fontFamily: 'Open Sans',
                       fontWeight: 400,
                       fontStyle: 'normal',
-                      fontSize: '16px',
                       lineHeight: '150%',
                       letterSpacing: '0%'
                     }}>
@@ -1188,30 +1207,27 @@ const Hero = () => {
                       <span style={{color: '#C6D1D6'}}>•</span>
                       <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
                     </div>
-                    <h4 className="font-bold text-gray-900 mb-2" style={{
+                    <h4 className="font-bold text-gray-900 mb-2 text-xl sm:text-2xl lg:text-3xl xl:text-4xl" style={{
                   fontFamily: 'El Messiri',
                   fontWeight: 700,
                   fontStyle: 'normal',
                   lineHeight: '124%',
                   letterSpacing: '0%',
-                  textTransform: 'capitalize',
-                  fontSize: '38px'
+                  textTransform: 'capitalize'
                 }}>Epic Road Trip Adventure</h4>
-                      <p className="text-sm text-gray-600" style={{
+                      <p className="text-xs sm:text-sm text-gray-600" style={{
                     fontFamily: 'Open Sans',
                     fontWeight: 400,
                     fontStyle: 'normal',
                     lineHeight: '150%',
-                    fontSize: '16px',
-                    letterSpacing: '0%',
-                  
+                    letterSpacing: '0%'
                   }}>
                     Arcu suscipit sapien purus et in non. Pellentesque tempor enim et dignissim diam.<br/>
                     Cursus egestas eget sed nascetur gravida.
                     </p>
                   </div>
                   <div className="flex-shrink-0">
-                    <div className="w-24 h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
                       <img 
                         src="/images/ic-tripy3.png"
                         alt="Epic Road Trip"
@@ -1222,13 +1238,12 @@ const Hero = () => {
                 </div>
 
                 {/* Package 3 */}
-                <div className="flex gap-8 p-8 border-b border-[#000000]">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 text-sm mb-2" style={{
+                    <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
                       fontFamily: 'Open Sans',
                       fontWeight: 400,
                       fontStyle: 'normal',
-                      fontSize: '16px',
                       lineHeight: '150%',
                       letterSpacing: '0%'
                     }}>
@@ -1236,30 +1251,27 @@ const Hero = () => {
                       <span style={{color: '#C6D1D6'}}>•</span>
                       <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
                     </div>  
-                    <h4 className="font-bold text-gray-900 mb-2" style={{
+                    <h4 className="font-bold text-gray-900 mb-2 text-xl sm:text-2xl lg:text-3xl xl:text-4xl" style={{
                   fontFamily: 'El Messiri',
                   fontWeight: 700,
                   fontStyle: 'normal',
                   lineHeight: '124%',
                   letterSpacing: '0%',
-                  textTransform: 'capitalize',
-                  fontSize: '38px'
+                  textTransform: 'capitalize'
                 }}>Cultural Treasures Tour</h4>
-                    <p className="text-sm text-gray-600" style={{
+                    <p className="text-xs sm:text-sm text-gray-600" style={{
                   fontFamily: 'Open Sans',
                   fontWeight: 400,
                   fontStyle: 'normal',
                   lineHeight: '150%',
-                  fontSize: '16px',
-                  letterSpacing: '0%',
-                
+                  letterSpacing: '0%'
                 }}>
                     Arcu suscipit sapien purus et in non. Pellentesque tempor enim et dignissim diam.<br/>
                     Cursus egestas eget sed nascetur gravida.
                     </p>
                   </div>
                   <div className="flex-shrink-0">
-                    <div className="w-24 h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
                       <img 
                         src="/images/ic-tripy4.png"
                         alt="Cultural Treasures"
@@ -1270,13 +1282,12 @@ const Hero = () => {
                 </div>
 
          
-                <div className="flex gap-8 p-8 border-b border-[#000000]">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 text-sm mb-2" style={{
+                    <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
                       fontFamily: 'Open Sans',
                       fontWeight: 400,
                       fontStyle: 'normal',
-                      fontSize: '16px',
                       lineHeight: '150%',
                       letterSpacing: '0%'
                     }}>
@@ -1284,30 +1295,27 @@ const Hero = () => {
                       <span style={{color: '#C6D1D6'}}>•</span>
                       <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
                     </div>
-                    <h4 className="font-bold text-gray-900 mb-2" style={{
+                    <h4 className="font-bold text-gray-900 mb-2 text-xl sm:text-2xl lg:text-3xl xl:text-4xl" style={{
                   fontFamily: 'El Messiri',
                   fontWeight: 700,
                   fontStyle: 'normal',
                   lineHeight: '124%',
                   letterSpacing: '0%',
-                  textTransform: 'capitalize',
-                  fontSize: '38px'
+                  textTransform: 'capitalize'
                 }}>Historical Heritage Journey</h4>
-                    <p className="text-sm text-gray-600" style={{
+                    <p className="text-xs sm:text-sm text-gray-600" style={{
                   fontFamily: 'Open Sans',
                   fontWeight: 400,
                   fontStyle: 'normal',
                   lineHeight: '150%',
-                  fontSize: '16px',
-                  letterSpacing: '0%',
-                
+                  letterSpacing: '0%'
                 }}>
                    Arcu suscipit sapien purus et in non. Pellentesque tempor enim et dignissim diam.<br/>
                    Cursus egestas eget sed nascetur gravida.
                    </p>
                  </div>
                  <div className="flex-shrink-0">
-                   <div className="w-24 h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
+                   <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
                      <img 
                        src="/images/ic-tripy5.png"
                        alt="Historical Heritage"
@@ -1328,17 +1336,17 @@ const Hero = () => {
 
       </section>
 
-          <div ref={centerImageRef} className="relative bg-gray-100 w-full py-12 sm:py-16 md:py-20 mt-8 sm:mt-12 md:mt-16 h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px]">
+          <div ref={centerImageRef} className="relative w-full pt-4 pb-8 sm:pt-6 sm:pb-12 md:pt-8 md:pb-16 lg:pt-10 lg:pb-20 mt-2 sm:mt-3 md:mt-4 lg:mt-5 h-96 sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px]">
             <img 
               src="/images/ic-center.png"
               alt="Best Destination"
               className="w-full h-full object-cover"
             />
             
-            <div ref={centerTextRef} className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 md:bottom-8 md:left-8 lg:bottom-8 lg:left-24">
+            <div ref={centerTextRef} className="absolute bottom-16 left-4 sm:bottom-10 sm:left-6 md:bottom-12 md:left-12 lg:bottom-16 lg:left-24 xl:bottom-20 xl:left-32">
               <div className="text-left">
                 <h2
-                  className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-4"
+                  className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl mb-2 sm:mb-3 md:mb-4"
                   style={{
                     fontFamily: 'El Messiri',
                     fontWeight: 700,
@@ -1355,20 +1363,19 @@ const Hero = () => {
                 </div>
               </div>
               
-        
-              <div className="absolute bottom-8 right-16 lg:bottom-8 lg:right-16  ">
+              <div className="absolute bottom-16 right-8 sm:bottom-20 sm:right-12 md:bottom-24 md:right-16 lg:bottom-32 lg:right-20 xl:bottom-40 xl:right-24">
                 <div className="flex items-center space-x-3">
                  
                    <img 
                     src="/images/ic-tripycontactus.png"
                     alt="Contact"
-                    className="sm:w-14 sm:h-14 lg:w-16 lg:h-16 object-cover rounded-full hover:scale-110 transition-transform duration-300" style={{width: '78px', height: '78px'}}
+                    className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 xl:w-20 xl:h-20 object-cover rounded-full hover:scale-110 transition-transform duration-300"
                   />
                 </div>
               </div>
             </div>
 
-          <div id="destinations" ref={destinationRef} className="mt-16 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
+          <div id="destinations" ref={destinationRef} className="mt-16 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40 px-8 sm:px-6 md:px-8 lg:px-16 xl:px-24">
             <div className="text-center mb-16">
               <div className="travel-badge mb-4">
                 Destination
@@ -1659,7 +1666,7 @@ const Hero = () => {
           </div>
 
       <div ref={testimonialRef} className="bg-gray-100 mt-16 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40">
-          <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 md:py-24 lg:py-32">
+          <div className="px-8 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 md:py-24 lg:py-32">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-center">
               <div className="lg:col-span-1">
                 <div className="space-y-4 mb-6">
@@ -1998,11 +2005,11 @@ const Hero = () => {
           </div>
 
        
-          <section style={{marginTop: '80px',}}>
+          <section className="mt-16 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40">
             <div className="container-responsive">
 
               <div className="relative">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-6">
                   {blogImages.slice(currentBlogIndex, currentBlogIndex + 5).map((image, index) => (
                     <div key={image.id} className="relative group cursor-pointer blog-carousel-item">
                       <div className="relative overflow-hidden shadow-lg w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80" style={{borderTopRightRadius: '32px', borderBottomRightRadius: '0px'}}>
@@ -2068,22 +2075,22 @@ const Hero = () => {
                 }}>
                   Blog & News
                 </div>
-                <h2 className="text-gray-900 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl leading-tight" style={{
+                <h2 className="text-gray-900 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl leading-tight" style={{
                   fontFamily: 'El Messiri',
                   fontWeight: 700,
-                  fontStyle: 'normal',
-                  lineHeight: '120%',
+                  fontStyle: 'Bold',
+                  lineHeight: '124%',
                   letterSpacing: '0%',
                   textTransform: 'capitalize'
                 }}>
-                  Read Our Latest News & Blog
+                  Read Our Latest News &<br />Blog
                 </h2>
               </div>
 
               {/* Blog Post Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Blog Post Card 1 */}
-                <div className="bg-white Shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer" style={{borderTopRightRadius: '32px'}}>
+                <div className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer" style={{borderTopRightRadius: '32px'}}>
                   <div className="relative">
                     <img 
                       src="/images/ic-blog1.png"
@@ -2164,7 +2171,7 @@ const Hero = () => {
 
      
           <footer id="footer" ref={footerRef} className="bg-gray-100 mt-16 sm:mt-20 md:mt-24 lg:mt-32">
-            <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
+            <div className="px-8 sm:px-12 md:px-16 lg:px-24 xl:px-32">
               <div>
                 <div className="flex flex-col md:flex-row pt-16 sm:pt-20 md:pt-24 lg:pt-32">
                   <div className="flex-1">
@@ -2311,7 +2318,7 @@ const Hero = () => {
                 </div>
 
            
-                <div className="space-y-4 pl-8 sm:pl-12 md:pl-16 lg:pl-20 xl:pl-24">
+                <div className="space-y-4">
                   <h5 className="text-lg font-semibold text-gray-900">Contact</h5>
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
@@ -2336,7 +2343,7 @@ const Hero = () => {
                 </div>
 
                 {/* Company Links */}
-                <div className="space-y-4 pl-8 sm:pl-12 md:pl-16 lg:pl-20 xl:pl-24">
+                <div className="space-y-4">
                   <h5 className="text-lg font-semibold text-gray-900">Company</h5>
                   <div className="space-y-2">
                     <button 
@@ -2373,7 +2380,7 @@ const Hero = () => {
                 </div>
 
                 {/* Open Trip Links */}
-                <div className="space-y-4" style={{paddingLeft:100}}>
+                <div className="space-y-4">
                   <h5 className="text-lg font-semibold text-gray-900">Open Trip</h5>
                   <div className="space-y-2">
                     <span className="block text-gray-600">

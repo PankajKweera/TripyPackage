@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   keywords: ['Travel', 'Packages', 'Destinations', 'Booking', 'Adventure'],
   authors: [{ name: 'TripyPackage Team' }],
   icons: [
-    { rel: 'icon', url: '/images/icon.png', type: 'image/png', sizes: '64x64' },
+    { rel: 'icon', url: '/images/icon.png', type: 'image/png', sizes: '80x80' },
     { rel: 'apple-touch-icon', url: '/images/icon.png', type: 'image/png', sizes: '180x180' }
   ],
 }
