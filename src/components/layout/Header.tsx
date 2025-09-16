@@ -90,7 +90,7 @@ const Header = () => {
   }
 
   return (
-    <header className={`  fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+    <header className={`bg-gray-100 shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
       isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       <div className="container-responsive px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-2">
@@ -172,7 +172,7 @@ const Header = () => {
                 {item.name}
               </button>
             ))}
-           
+            
           </div>
         </div>
       </div>

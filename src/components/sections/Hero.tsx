@@ -158,6 +158,15 @@ const Hero = () => {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
+    // Preload destination images for faster loading
+    const preloadImages = () => {
+      carouselImages.forEach(image => {
+        const img = new Image()
+        img.src = image.src
+      })
+    }
+    preloadImages()
+
     // Hide any debug elements that might appear
     const hideDebugElements = () => {
       // Hide ScrollTrigger markers
@@ -634,12 +643,12 @@ const Hero = () => {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 1.5,
+          duration: isMobile ? 0.4 : 1.5,
           ease: "power3.out",
           scrollTrigger: {
             trigger: destinationCardsRef.current,
-            start: "top 85%",
-            end: "bottom 15%",
+            start: "top 90%",
+            end: "bottom 10%",
             toggleActions: "play none none reverse"
           }
         }
@@ -660,13 +669,13 @@ const Hero = () => {
             y: 0,
             scale: 1,
             rotation: 0,
-            duration: 1,
-            ease: "back.out(1.7)",
-            stagger: 0.2,
+            duration: isMobile ? 0.3 : 1,
+            ease: isMobile ? "power2.out" : "back.out(1.7)",
+            stagger: isMobile ? 0.1 : 0.2,
             scrollTrigger: {
               trigger: destinationCardsRef.current,
-              start: "top 80%",
-              end: "bottom 20%",
+              start: "top 90%",
+              end: "bottom 10%",
               toggleActions: "play none none reverse"
             }
           }
@@ -1375,7 +1384,7 @@ const Hero = () => {
               </div>
             </div>
 
-          <div id="destinations" ref={destinationRef} className="mt-16 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40 px-8 sm:px-6 md:px-8 lg:px-16 xl:px-24">
+          <div id="destinations" ref={destinationRef} className="mt-4 sm:mt-8 md:mt-12 lg:mt-16 xl:mt-20 px-8 sm:px-6 md:px-8 lg:px-16 xl:px-24">
             <div className="text-center mb-16">
               <div className="travel-badge mb-4">
                 Destination
