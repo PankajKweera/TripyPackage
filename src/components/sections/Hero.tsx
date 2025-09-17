@@ -5,6 +5,7 @@ import { ArrowRight, MapPin, Calendar, Users, Play, Quote, ChevronLeft, ChevronR
 import { useEffect, useRef, Fragment, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Toast from '../ui/Toast'
 
 
 if (typeof window !== 'undefined') {
@@ -54,6 +55,8 @@ const Hero = () => {
  
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
   
   const [selectedSocial, setSelectedSocial] = useState<string | null>(null)
   
@@ -133,9 +136,15 @@ const Hero = () => {
       console.log('Subscribed email:', email)
       setIsSubscribed(true)
       setEmail('')
-      // Show success message
-      alert('Thank you for subscribing to our newsletter!')
+      // Show success message with toast
+      setToastMessage('Thank you for subscribing to our newsletter!')
+      setShowToast(true)
     }
+  }
+
+  // Toast close handler
+  const handleToastClose = () => {
+    setShowToast(false)
   }
 
   // Social media selection function
@@ -907,6 +916,7 @@ const Hero = () => {
   }, [])
 
   return (
+    <>
     <section id="hero" ref={heroRef} className="relative" style={{
       backgroundImage: "url('/images/ic-bg.png')",
       backgroundSize: 'cover',
@@ -2478,11 +2488,20 @@ const Hero = () => {
             </div>
           </footer>
            
-   
+
       
             
         </section>
-      )
+        
+        {/* Toast Notification */}
+        <Toast 
+          message={toastMessage}
+          isVisible={showToast}
+          onClose={handleToastClose}
+          duration={5000}
+        />
+      </>
+  )
 }
 
 export default Hero
