@@ -6,6 +6,19 @@ import { useEffect, useRef, Fragment, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Toast from '../ui/Toast'
+import { getToastMessage, getFeaturedPackage, getRegularPackages, urlFor } from '../../lib/sanity'
+
+// Package type definition
+interface Package {
+  _id: string
+  title: string
+  description: string
+  dates: string
+  duration: string
+  image?: any
+  isFeatured: boolean
+  isActive: boolean
+}
 
 
 if (typeof window !== 'undefined') {
@@ -49,13 +62,42 @@ const Hero = () => {
     '/images/ic-tripy10.png'
   ]
 
+  // Packages state
+  const [featuredPackage, setFeaturedPackage] = useState<Package | null>(null)
+  const [regularPackages, setRegularPackages] = useState<Package[]>([])
+  const [packagesLoaded, setPackagesLoaded] = useState(false)
+
   // Blog carousel state
   const [currentBlogIndex, setCurrentBlogIndex] = useState(0)
+
+  // Load packages data from Sanity
+  const loadPackages = async () => {
+    try {
+      console.log('Loading packages from Sanity...')
+
+      const [featured, regular] = await Promise.all([
+        getFeaturedPackage(),
+        getRegularPackages()
+      ])
+
+      setFeaturedPackage(featured)
+      setRegularPackages(regular)
+      setPackagesLoaded(true)
+
+    } catch (error) {
+      console.error('Error loading packages:', error)
+    }
+  }
   
  
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [showToast, setShowToast] = useState(false)
+
+  // Load packages on component mount
+  useEffect(() => {
+    loadPackages()
+  }, [])
   const [toastMessage, setToastMessage] = useState('')
   
   const [selectedSocial, setSelectedSocial] = useState<string | null>(null)
@@ -129,15 +171,25 @@ const Hero = () => {
   }
 
   // Newsletter subscription function
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault()
     if (email) {
-      // Simple validation and subscription without API
-      console.log('Subscribed email:', email)
       setIsSubscribed(true)
       setEmail('')
-      // Show success message with toast
-      setToastMessage('Thank you for subscribing to our newsletter!')
+      
+      // Fetch toast message from Sanity
+      try {
+        const toastData = await getToastMessage()
+        if (toastData && toastData.isActive) {
+          setToastMessage(toastData.message)
+        } else {
+          setToastMessage('Thank you for subscribing to our newsletter!')
+        }
+      } catch (error) {
+        console.error('Error fetching toast message:', error)
+        setToastMessage('Thank you for subscribing to our newsletter!')
+      }
+      
       setShowToast(true)
     }
   }
@@ -163,6 +215,7 @@ const Hero = () => {
     }
   }
   
+
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -764,7 +817,7 @@ const Hero = () => {
       )
 
       // Testimonial Cards Animation with Stagger
-      const testimonialCards = testimonialRef.current?.querySelectorAll('div[class*="bg-white p-6"]')
+      const testimonialCards = testimonialRef.current?.querySelectorAll('div[class*="bg-white p-4 sm:p-6"]')
       if (testimonialCards) {
         gsap.fromTo(testimonialCards,
           {
@@ -785,6 +838,52 @@ const Hero = () => {
               trigger: testimonialRef.current,
               start: "top 80%",
               end: "bottom 20%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        )
+      }
+
+      // Testimonial Left Side Animation
+      const testimonialLeft = testimonialRef.current?.querySelector('.lg\\:col-span-1')
+      if (testimonialLeft) {
+        gsap.fromTo(testimonialLeft,
+          {
+            opacity: 0,
+            x: -50
+          },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: testimonialRef.current,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        )
+      }
+
+      // Testimonial Right Side Animation
+      const testimonialRight = testimonialRef.current?.querySelector('.lg\\:col-span-2')
+      if (testimonialRight) {
+        gsap.fromTo(testimonialRight,
+          {
+            opacity: 0,
+            x: 50
+          },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: testimonialRef.current,
+              start: "top 85%",
+              end: "bottom 15%",
               toggleActions: "play none none reverse"
             }
           }
@@ -921,6 +1020,7 @@ const Hero = () => {
       backgroundImage: "url('/images/ic-bg.png')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
+      marginTop: '-60px',
       backgroundRepeat: 'no-repeat',
       height: '2075px'
     }}>
@@ -931,7 +1031,7 @@ const Hero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div ref={contentRef} className="text-center lg:text-left">
             <div className="travel-badge mb-4">
-              Start Travelling With Us
+              Start Traveling With Us
             </div>
             <h1 
               className="text-gray-900 mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl"
@@ -998,7 +1098,7 @@ const Hero = () => {
                 <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px]  rounded-2xl p-3 sm:p-4 lg:p-6">
                   {/* Third Image - Bottom Layer (tripy4.png) - Maintains original overlapping design */}
                   <div className="absolute z-10" style={{ 
-                    width: 'clamp(200px, 50vw, 414px)', 
+                    width: 'clamp(200px, 50vw, 380px)', 
                     height: 'clamp(150px, 40vw, 342px)', 
                     top: 'clamp(200px, 50vw, 390px)', 
                     left: 'clamp(10px, 5vw, 20px)' 
@@ -1019,10 +1119,10 @@ const Hero = () => {
                     </div>
                   </div>
                   
-                  {/* Second Image - Middle Layer (tripy5.png) - Maintains original overlapping design */}
+                  {/* Second Image - Middle Layer (tripy5.png) - Mobile responsive positioning */}
                   <div className="absolute z-20" style={{ 
-                    width: 'clamp(250px, 60vw, 435px)', 
-                    height: 'clamp(200px, 50vw, 400px)', 
+                    width: 'clamp(240px, 50vw, 360px)', 
+                    height: 'clamp(230px, 40vw, 370px)', 
                     top: 'clamp(100px, 30vw, 180.32px)', 
                     left: 'clamp(120px, 30vw, 195px)' 
                   }}>
@@ -1067,6 +1167,8 @@ const Hero = () => {
                 </div>
               </div>
 
+
+
               {/* Right Side - Content */}
               <div ref={aboutContentRef} className="space-y-4 sm:space-y-6 order-1 lg:order-2 px-4 sm:px-6 lg:px-0 lg:ml-8 xl:ml-16">
                 {/* About Us Badge */}
@@ -1085,14 +1187,33 @@ const Hero = () => {
                   We Are The Best Travel Market
                 </h2>
                 
-                {/* Description */}
-                <div className="space-y-4 sm:space-y-5 text-gray-600 leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl px-2 sm:px-4 lg:px-0 lg:ml-[140px]">
-                  <p>
-                    Venenatis donec sit sit egestas varius. Dictum sit risus scelerisque nulla amet vel mollis sem morbi. Egestas quam scelerisque morbi nisi lacinia nunc.
-                  </p>
-                  <p>
-                    Venenatis donec sit sit egestas varius. Dictum sit risus scelerisque nulla amet vel mollis sem morbi. Egestas quam scelerisque morbi nisi lacinia nunc.
-                  </p>
+          
+             
+                <div className="space-y-4 sm:space-y-5 text-gray-600 leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl px-2 sm:px-4 lg:px-0">
+                  <div className="flex items-center gap-6 mb-6">
+                    <div className=" flex-shrink-0  ">
+                      <img 
+                        src="/images/ic-readmore.png" 
+                        alt="Read More" 
+                        className="object-contain w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28"
+                        loading="lazy"
+                        decoding="async"
+                        style={{ 
+                          backgroundColor: 'white',
+                          filter: 'brightness(1.1) contrast(1.1)',
+                          mixBlendMode: 'multiply'
+                        }}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <p>
+                        Venenatis donec sit sit egestas varius. Dictum sit risus scelerisque nulla amet vel mollis sem morbi. Egestas quam scelerisque morbi nisi lacinia nunc.
+                      </p>
+                      <p className="mt-4">
+                        Venenatis donec sit sit egestas varius. Dictum sit risus scelerisque nulla amet vel mollis sem morbi. Egestas quam scelerisque morbi nisi lacinia nunc.
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Read More About Us Spinner */}
@@ -1103,7 +1224,7 @@ const Hero = () => {
           </section>
 
           
-          {/* Packages Section */}
+ 
           <div id="packages" ref={packagesRef} className="mt-32 sm:mt-20 md:mt-24 lg:mt-32 xl:mt-40">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
               {/* Left Side - Featured Package */}
@@ -1127,11 +1248,19 @@ const Hero = () => {
           
                 <div className="relative">
                   <div className="bg-gradient-to-br from-orange-100 to-pink-100 overflow-hidden shadow-lg w-full h-64 sm:h-80 md:h-96 lg:h-[400px] xl:h-[450px]">
-                    <img 
-                      src="/images/ic-tripy6.png"
-                      alt="Island Hopping Paradise"
-                      className="w-full h-full object-cover"
-                    />
+                    {featuredPackage && featuredPackage.image ? (
+                      <img 
+                        src={urlFor(featuredPackage.image).width(800).height(600).url()}
+                        alt={featuredPackage.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <img 
+                        src="/images/ic-tripy6.png"
+                        alt="Island Hopping Paradise"
+                        className="w-full h-full object-cover"
+                      />
+                    )}
                   </div>
                 </div>
                 
@@ -1145,17 +1274,17 @@ const Hero = () => {
                     lineHeight: '150%',
                     letterSpacing: '0%'
                   }}>
-                    <span style={{color: '#0C1F26'}}>24 - 28 July</span>
+                    <span style={{color: '#0C1F26'}}>{featuredPackage?.dates || '24 - 28 July'}</span>
                     <span style={{color: '#C6D1D6'}}>•</span>
-                    <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
+                    <span style={{color: '#0C1F26'}}>{featuredPackage?.duration || '4 day 3 Night'}</span>
                   </div>
                   
                   <h3 className="text-2xl font-bold text-gray-900">
-                    Island Hopping Paradise
+                    {featuredPackage?.title || 'Island Hopping Paradise'}
                   </h3>
                   
                   <p className="text-gray-600 leading-relaxed">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                    {featuredPackage?.description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.'}
                   </p>
                   
                   <div className="flex gap-4">
@@ -1170,190 +1299,97 @@ const Hero = () => {
               </div>
 
               <div ref={packagesRightRef} className="space-y-4 sm:space-y-6 mt-8 lg:mt-32 xl:mt-40">
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
-                      fontFamily: 'Open Sans',
-                      fontWeight: 400,
-                      fontStyle: 'normal',
-                      lineHeight: '150%',
-                      letterSpacing: '0%'
-                    }}>
-                      <span style={{color: '#0C1F26'}}>24 - 28 July</span>
-                      <span style={{color: '#C6D1D6'}}>•</span>
-                      <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
-                    </div>
-                     <div className="flex-shrink-0 flex items-end sm:absolute sm:top-4 sm:right-4 lg:static lg:mt-0">
-                       <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
-                        <img 
-                          src="/images/ic-tripy7.png"
-                          alt="Mountain Majesty"
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 "
-                        />
+                {packagesLoaded && regularPackages.length > 0 ? (
+                  regularPackages.map((pkg, index) => (
+                    <div key={pkg._id} className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
+                          fontFamily: 'Open Sans',
+                          fontWeight: 400,
+                          fontStyle: 'normal',
+                          lineHeight: '150%',
+                          letterSpacing: '0%'
+                        }}>
+                          <span style={{color: '#0C1F26'}}>{pkg.dates}</span>
+                          <span style={{color: '#C6D1D6'}}>•</span>
+                          <span style={{color: '#0C1F26'}}>{pkg.duration}</span>
+                        </div>
+                        <div className="flex-shrink-0 flex items-end sm:absolute sm:top-4 sm:right-4 lg:static lg:mt-0">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
+                            <img 
+                              src={pkg.image ? urlFor(pkg.image).width(200).height(200).url() : '/images/ic-tripy7.png'}
+                              alt={pkg.title}
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        </div>
+                        <h4 className="font-bold text-gray-900 mb-2 text-xl sm:text-2xl lg:text-3xl xl:text-4xl" style={{
+                          fontFamily: 'El Messiri',
+                          fontWeight: 700,
+                          fontStyle: 'normal',
+                          lineHeight: '124%',
+                          letterSpacing: '0%',
+                          textTransform: 'capitalize'
+                        }}>{pkg.title}</h4>
+                        <p className="text-sm text-gray-600" style={{
+                          fontFamily: 'Open Sans',
+                          fontWeight: 400,
+                          fontStyle: 'normal',
+                          lineHeight: '150%',
+                          fontSize: '16px',
+                          letterSpacing: '0%',
+                        }}>
+                          {pkg.description}
+                        </p>
                       </div>
                     </div>
-                    <h4 className="font-bold text-gray-900 mb-2" style={{
-                  fontFamily: 'El Messiri',
-                  fontWeight: 700,
-                  fontStyle: 'normal',
-                  lineHeight: '124%',
-                  letterSpacing: '0%',
-                  textTransform: 'capitalize',
-                  fontSize: '38px'
-
-
-
-        
-                }}>Mountain Majesty Ex</h4>
-
-
-
-
-<p className="text-sm text-gray-600" style={{
-                  fontFamily: 'Open Sans',
-                  fontWeight: 400,
-                  fontStyle: 'normal',
-                  lineHeight: '150%',
-                  fontSize: '16px',
-                  letterSpacing: '0%',
-                
-                }}>
-                Arcu suscipit sapien purus et in non. Pellentesque tempor enim et dignissim diam Cursus egestas eget sed nascetur gravida.
-                    </p>
-                  </div>
-                 
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
-                      fontFamily: 'Open Sans',
-                      fontWeight: 400,
-                      fontStyle: 'normal',
-                      lineHeight: '150%',
-                      letterSpacing: '0%'
-                    }}>
-                      <span style={{color: '#0C1F26'}}>24 - 28 July</span>
-                      <span style={{color: '#C6D1D6'}}>•</span>
-                      <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
-                    </div>
-                    <h4 className="font-bold text-gray-900 mb-2 text-xl sm:text-2xl lg:text-3xl xl:text-4xl" style={{
-                  fontFamily: 'El Messiri',
-                  fontWeight: 700,
-                  fontStyle: 'normal',
-                  lineHeight: '124%',
-                  letterSpacing: '0%',
-                  textTransform: 'capitalize'
-                }}>Epic Road Trip Adventure</h4>
-                      <p className="text-xs sm:text-sm text-gray-600" style={{
-                    fontFamily: 'Open Sans',
-                    fontWeight: 400,
-                    fontStyle: 'normal',
-                    lineHeight: '150%',
-                    letterSpacing: '0%'
-                  }}>
-                    Arcu suscipit sapien purus et in non. Pellentesque tempor enim et dignissim diam.<br/>
-                    Cursus egestas eget sed nascetur gravida.
-                    </p>
-                  </div>
-                  <div className="flex-shrink-0">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
-                      <img 
-                        src="/images/ic-tripy3.png"
-                        alt="Epic Road Trip"
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      />
+                  ))
+                ) : (
+                  // Fallback content when packages are loading or not available
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
+                        fontFamily: 'Open Sans',
+                        fontWeight: 400,
+                        fontStyle: 'normal',
+                        lineHeight: '150%',
+                        letterSpacing: '0%'
+                      }}>
+                        <span style={{color: '#0C1F26'}}>24 - 28 July</span>
+                        <span style={{color: '#C6D1D6'}}>•</span>
+                        <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
+                      </div>
+                      <div className="flex-shrink-0 flex items-end sm:absolute sm:top-4 sm:right-4 lg:static lg:mt-0">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
+                          <img 
+                            src="/images/ic-tripy7.png"
+                            alt="Mountain Majesty"
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      </div>
+                      <h4 className="font-bold text-gray-900 mb-2 text-xl sm:text-2xl lg:text-3xl xl:text-4xl" style={{
+                        fontFamily: 'El Messiri',
+                        fontWeight: 700,
+                        fontStyle: 'normal',
+                        lineHeight: '124%',
+                        letterSpacing: '0%',
+                        textTransform: 'capitalize'
+                      }}>Mountain Majesty Ex</h4>
+                      <p className="text-sm text-gray-600" style={{
+                        fontFamily: 'Open Sans',
+                        fontWeight: 400,
+                        fontStyle: 'normal',
+                        lineHeight: '150%',
+                        fontSize: '16px',
+                        letterSpacing: '0%',
+                      }}>
+                        Arcu suscipit sapien purus et in non. Pellentesque tempor enim et dignissim diam Cursus egestas eget sed nascetur gravida.
+                      </p>
                     </div>
                   </div>
-                </div>
+                )}
 
-                {/* Package 3 */}
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
-                      fontFamily: 'Open Sans',
-                      fontWeight: 400,
-                      fontStyle: 'normal',
-                      lineHeight: '150%',
-                      letterSpacing: '0%'
-                    }}>
-                      <span style={{color: '#0C1F26'}}>24 - 28 July</span>
-                      <span style={{color: '#C6D1D6'}}>•</span>
-                      <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
-                    </div>  
-                    <h4 className="font-bold text-gray-900 mb-2 text-xl sm:text-2xl lg:text-3xl xl:text-4xl" style={{
-                  fontFamily: 'El Messiri',
-                  fontWeight: 700,
-                  fontStyle: 'normal',
-                  lineHeight: '124%',
-                  letterSpacing: '0%',
-                  textTransform: 'capitalize'
-                }}>Cultural Treasures Tour</h4>
-                    <p className="text-xs sm:text-sm text-gray-600" style={{
-                  fontFamily: 'Open Sans',
-                  fontWeight: 400,
-                  fontStyle: 'normal',
-                  lineHeight: '150%',
-                  letterSpacing: '0%'
-                }}>
-                    Arcu suscipit sapien purus et in non. Pellentesque tempor enim et dignissim diam.<br/>
-                    Cursus egestas eget sed nascetur gravida.
-                    </p>
-                  </div>
-                  <div className="flex-shrink-0">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
-                      <img 
-                        src="/images/ic-tripy4.png"
-                        alt="Cultural Treasures"
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-         
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 p-4 sm:p-6 lg:p-8 border-b border-[#000000]">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 text-xs sm:text-sm mb-2" style={{
-                      fontFamily: 'Open Sans',
-                      fontWeight: 400,
-                      fontStyle: 'normal',
-                      lineHeight: '150%',
-                      letterSpacing: '0%'
-                    }}>
-                      <span style={{color: '#0C1F26'}}>24 - 28 July</span>
-                      <span style={{color: '#C6D1D6'}}>•</span>
-                      <span style={{color: '#0C1F26'}}>4 day 3 Night</span>
-                    </div>
-                    <h4 className="font-bold text-gray-900 mb-2 text-xl sm:text-2xl lg:text-3xl xl:text-4xl" style={{
-                  fontFamily: 'El Messiri',
-                  fontWeight: 700,
-                  fontStyle: 'normal',
-                  lineHeight: '124%',
-                  letterSpacing: '0%',
-                  textTransform: 'capitalize'
-                }}>Historical Heritage Journey</h4>
-                    <p className="text-xs sm:text-sm text-gray-600" style={{
-                  fontFamily: 'Open Sans',
-                  fontWeight: 400,
-                  fontStyle: 'normal',
-                  lineHeight: '150%',
-                  letterSpacing: '0%'
-                }}>
-                   Arcu suscipit sapien purus et in non. Pellentesque tempor enim et dignissim diam.<br/>
-                   Cursus egestas eget sed nascetur gravida.
-                   </p>
-                 </div>
-                 <div className="flex-shrink-0">
-                   <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 overflow-hidden hover:scale-105 transition-transform duration-300">
-                     <img 
-                       src="/images/ic-tripy5.png"
-                       alt="Historical Heritage"
-                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                     />
-                   </div>
-                 </div>
-               </div>
              </div>
            </div>
 

@@ -7,9 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "optimize-images": "node scripts/optimize-images.js"
+    "optimize-images": "node scripts/optimize-images.js",
+    "sanity": "sanity dev",
+    "sanity:build": "sanity build",
+    "sanity:deploy": "sanity deploy"
   },
   "dependencies": {
+    "@sanity/client": "^6.10.0",
+    "@sanity/image-url": "^1.0.2",
     "clsx": "^2.1.1",
     "firebase": "^10.7.1",
     "gsap": "^3.13.0",
