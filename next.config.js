@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export',
+  // Remove output: 'export' to enable SSR/SSG
   trailingSlash: true,
   images: {
     unoptimized: true,
-    domains: ['images.unsplash.com', 'via.placeholder.com'],
+    domains: ['images.unsplash.com', 'via.placeholder.com', 'cdn.sanity.io'],
     formats: ['image/webp', 'image/avif'],
   },
   webpack: (config, { isServer }) => {

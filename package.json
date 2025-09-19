@@ -13,6 +13,7 @@
     "sanity:deploy": "sanity deploy"
   },
   "dependencies": {
+    "@netlify/plugin-nextjs": "^5.13.3",
     "@sanity/client": "^6.10.0",
     "@sanity/image-url": "^1.0.2",
     "clsx": "^2.1.1",

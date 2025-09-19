@@ -4,6 +4,7 @@ import {visionTool} from '@sanity/vision'
 
 // Import your schemas
 import aboutUsSimple from './sanity-schemas/aboutUsSimple.js'
+import packages from './sanity-schemas/packages.js'
 
 export default defineConfig({
   name: 'tripy-package',
@@ -19,7 +20,8 @@ export default defineConfig({
   
   schema: {
     types: [
-      aboutUsSimple
+      aboutUsSimple,
+      packages
     ]
   }
 })

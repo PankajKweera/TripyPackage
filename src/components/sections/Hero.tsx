@@ -7,6 +7,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Toast from '../ui/Toast'
 import { getToastMessage, getFeaturedPackage, getRegularPackages, urlFor } from '../../lib/sanity'
+import { subscribeEmail } from '../../lib/emailService'
 
 // Package type definition
 interface Package {
@@ -35,7 +36,12 @@ if (typeof window !== 'undefined') {
   })
 }
 
-const Hero = () => {
+interface HeroProps {
+  initialFeaturedPackage?: any;
+  initialRegularPackages?: any[];
+}
+
+const Hero = ({ initialFeaturedPackage = null, initialRegularPackages = [] }: HeroProps) => {
   const heroRef = useRef<HTMLElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const imagesRef = useRef<HTMLDivElement>(null)
@@ -63,9 +69,9 @@ const Hero = () => {
   ]
 
   // Packages state
-  const [featuredPackage, setFeaturedPackage] = useState<Package | null>(null)
-  const [regularPackages, setRegularPackages] = useState<Package[]>([])
-  const [packagesLoaded, setPackagesLoaded] = useState(false)
+  const [featuredPackage, setFeaturedPackage] = useState<Package | null>(initialFeaturedPackage)
+  const [regularPackages, setRegularPackages] = useState<Package[]>(initialRegularPackages)
+  const [packagesLoaded, setPackagesLoaded] = useState(true) // Set to true since we have initial data
 
   // Blog carousel state
   const [currentBlogIndex, setCurrentBlogIndex] = useState(0)
@@ -80,12 +86,14 @@ const Hero = () => {
         getRegularPackages()
       ])
 
+
       setFeaturedPackage(featured)
       setRegularPackages(regular)
       setPackagesLoaded(true)
 
     } catch (error) {
       console.error('Error loading packages:', error)
+      setPackagesLoaded(true) // Set to true even on error to show fallback content
     }
   }
   
@@ -94,9 +102,11 @@ const Hero = () => {
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [showToast, setShowToast] = useState(false)
 
-  // Load packages on component mount
+  // Load packages on component mount only if no initial data
   useEffect(() => {
-    loadPackages()
+    if (!initialFeaturedPackage && initialRegularPackages.length === 0) {
+      loadPackages()
+    }
   }, [])
   const [toastMessage, setToastMessage] = useState('')
   
@@ -174,23 +184,38 @@ const Hero = () => {
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault()
     if (email) {
-      setIsSubscribed(true)
-      setEmail('')
-      
-      // Fetch toast message from Sanity
       try {
-        const toastData = await getToastMessage()
-        if (toastData && toastData.isActive) {
-          setToastMessage(toastData.message)
+        // Call the email subscription service
+        const result = await subscribeEmail(email)
+        
+        if (result.success) {
+          setIsSubscribed(true)
+          setEmail('')
+          
+          // Fetch toast message from Sanity
+          try {
+            const toastData = await getToastMessage()
+            if (toastData && toastData.isActive) {
+              setToastMessage(toastData.message)
+            } else {
+              setToastMessage(result.message)
+            }
+          } catch (error) {
+            console.error('Error fetching toast message:', error)
+            setToastMessage(result.message)
+          }
+          
+          setShowToast(true)
         } else {
-          setToastMessage('Thank you for subscribing to our newsletter!')
+          // Show error message
+          setToastMessage(result.message)
+          setShowToast(true)
         }
       } catch (error) {
-        console.error('Error fetching toast message:', error)
-        setToastMessage('Thank you for subscribing to our newsletter!')
+        console.error('Error subscribing email:', error)
+        setToastMessage('Something went wrong. Please try again.')
+        setShowToast(true)
       }
-      
-      setShowToast(true)
     }
   }
 
