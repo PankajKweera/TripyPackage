@@ -102,11 +102,9 @@ const Hero = ({ initialFeaturedPackage = null, initialRegularPackages = [] }: He
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [showToast, setShowToast] = useState(false)
 
-  // Load packages on component mount only if no initial data
+  // Always load fresh packages on component mount
   useEffect(() => {
-    if (!initialFeaturedPackage && initialRegularPackages.length === 0) {
-      loadPackages()
-    }
+    loadPackages()
   }, [])
   const [toastMessage, setToastMessage] = useState('')
   
